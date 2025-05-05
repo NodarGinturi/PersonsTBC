@@ -1,0 +1,6 @@
+@PersonsApi_HostAddress = http://localhost:5124
+
+GET {{PersonsApi_HostAddress}}/swagger/
+Accept: application/json
+
+###
