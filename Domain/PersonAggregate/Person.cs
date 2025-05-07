@@ -6,14 +6,13 @@ namespace Persons.Domain.PersonAggregate;
 
 public class Person : BaseEntity
 {
-    public Person(string firstName, string lastName, GenderTypes gender, string personalNumber, DateOnly birthDate, string imageUrl, int cityId) 
+    public Person(string firstName, string lastName, GenderTypes gender, string personalNumber, DateOnly birthDate, int cityId) 
     {
         FirstName = firstName;
         LastName = lastName;
         Gender = gender;
         PersonalNumber = personalNumber;
         BirthDate = birthDate;
-        ImageUrl = imageUrl;
         CityId = cityId;
     }
 
@@ -31,6 +30,7 @@ public class Person : BaseEntity
     public Phone Phone { get; set; }
     public int CityId { get; set; }
     public string ImageUrl { get; set; }
+    public List<RelatedPerson> RelatedPersons { get; set; }
 
     public void Update(
         string firstName, 

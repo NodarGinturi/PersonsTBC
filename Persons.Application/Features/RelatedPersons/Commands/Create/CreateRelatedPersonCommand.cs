@@ -33,7 +33,6 @@ public class CreateRelatedPersonCommandHandler(IUnitOfWork unitOfWork, IMediator
             request.PersonalNumber,
             request.BirthDate,
             request.CityId,
-            request.ImageUrl,
             request.Phone,
             request.PhoneType
         ), cancellationToken);

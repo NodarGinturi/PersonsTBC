@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using CSharpFunctionalExtensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Persons.Application.Features.Persons.Commands.Create;
 using Persons.Application.Features.Persons.Commands.Delete;
+using Persons.Application.Features.Persons.Commands.Image;
 using Persons.Application.Features.Persons.Commands.Update;
 using Persons.Application.Features.Persons.Queries;
 
@@ -36,6 +38,16 @@ namespace Persons.Api.Controllers
             return Ok();
         }
 
+        [HttpPost(ApiEndpoints.Persons.Image)]
+        public async Task<ActionResult<Result>> Image(UploadImageCommand uploadImageCommand)
+        {
+            var response = await _mediator.Send(uploadImageCommand);
+
+            if (response.IsFailure) return BadRequest(response.Error);
+
+            return Ok();
+        }
+
         [HttpDelete(ApiEndpoints.Persons.Delete)]
         public async Task<ActionResult<CreatePersonResponse>> Delete(DeletePersonCommand deletePersonCommand)
         {
@@ -58,6 +70,16 @@ namespace Persons.Api.Controllers
 
         [HttpGet(ApiEndpoints.Persons.GetAll)]
         public async Task<ActionResult<CreatePersonResponse>> GetAll(GetPersonsQuery query)
+        {
+            var response = await _mediator.Send(query);
+
+            if (response.IsFailure) return BadRequest(response.Error);
+
+            return Ok();
+        }
+
+        [HttpGet(ApiEndpoints.Persons.GetRelation)]
+        public async Task<ActionResult<CreatePersonResponse>> GetRelation(GetPersonRelationsQuery query)
         {
             var response = await _mediator.Send(query);
 

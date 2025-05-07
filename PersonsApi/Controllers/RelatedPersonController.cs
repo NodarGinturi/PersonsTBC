@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Persons.Application.Features.RelatedPersons.Commands.Create;
 using Persons.Application.Features.RelatedPersons.Commands.Delete;
-using Persons.Application.Features.RelatedPersons.Commands.Update;
 
 namespace Persons.Api.Controllers
 {
@@ -30,16 +29,6 @@ namespace Persons.Api.Controllers
         public async Task<ActionResult<Result>> Delete(DeleteRelatedPersonCommand createRelatedPersonCommand)
         {
             var response = await _mediator.Send(createRelatedPersonCommand);
-
-            if (response.IsFailure) return BadRequest(response.Error);
-
-            return Ok();
-        }
-
-        [HttpPut(ApiEndpoints.Persons.RelatedUpdate)]
-        public async Task<ActionResult<Result>> Update(UpdateRelatedPersonCommand updateRelatedPersonCommand)
-        {
-            var response = await _mediator.Send(updateRelatedPersonCommand);
 
             if (response.IsFailure) return BadRequest(response.Error);
 

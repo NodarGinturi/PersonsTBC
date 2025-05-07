@@ -1,4 +1,6 @@
+using MediatR;
 using Microsoft.OpenApi.Models;
+using Persons.Api;
 using Persons.Application;
 using Persons.Application.Features.Persons.Commands.Create;
 using Persons.Persistence.Extensions;
@@ -7,7 +9,10 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidateModelAttribute>();
+});
 builder.Services.AddApplication();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -20,9 +25,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
 var app = builder.Build();
 
-// Enable middleware for Swagger
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

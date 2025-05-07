@@ -4,19 +4,19 @@ using Persons.Domain.PersonAggregate;
 using Persons.Domain.PhoneNumberAggregate;
 using CSharpFunctionalExtensions;
 using System.Transactions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Persons.Application.Features.Persons.Commands.Create;
 
 public record CreatePersonCommand(
-    string FirstName,
-    string LastName,
-    GenderTypes Gender,
-    string PersonalNumber,
-    DateOnly BirthDate,
-    int CityId,
-    string ImageUrl,
-    string Phone,
-    PhoneType PhoneType
+    [Required] string FirstName,
+    [Required] string LastName,
+    [Required] GenderTypes Gender,
+    [Required] string PersonalNumber,
+    [Required] DateOnly BirthDate,
+    [Required] int CityId,
+    [Required] string Phone,
+    [Required] PhoneType PhoneType
 ) : IRequest<Result<CreatePersonResponse>>;
 
 public record CreatePersonResponse(int Id);
@@ -43,7 +43,6 @@ public class CreatePersonCommandHandler(IUnitOfWork unitOfWork)
             request.Gender,
             request.PersonalNumber,
             request.BirthDate,
-            request.ImageUrl,
             request.CityId);
 
         var phone = new Phone(request.Phone, request.PhoneType, person.Id);
