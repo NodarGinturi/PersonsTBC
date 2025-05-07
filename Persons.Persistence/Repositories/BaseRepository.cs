@@ -28,7 +28,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
 
     public virtual async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<T>().FindAsync(id, cancellationToken);
+        return await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id, cancellationToken);
     }
 
     public async Task<List<T>> ListAllAsync(int? id, CancellationToken cancellationToken = default)

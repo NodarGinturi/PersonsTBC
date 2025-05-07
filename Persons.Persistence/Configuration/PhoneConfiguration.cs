@@ -16,5 +16,10 @@ public class PhoneConfiguration : IEntityTypeConfiguration<Phone>
              .WithOne()
              .IsRequired()
              .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(p => p.Person)
+             .WithOne(p => p.Phone)
+             .HasForeignKey<Phone>(p => p.PersonId)
+             .OnDelete(DeleteBehavior.NoAction);
     }
 }

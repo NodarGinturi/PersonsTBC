@@ -12,12 +12,13 @@
             public const string Get = $"{Base}/{{id}}";
             public const string Update = $"{Base}/{{id}}";
             public const string Delete = $"{Base}/{{id}}";
-            public const string Image = $"{Base}/{{id}}";
+            public const string Image = $"{Base}/image";
+            public const string GetRelation = $"{Base}/relation";
 
             private const string RelatedPerson = $"{ApiBase}/relatedPerson";
             public const string RelatedCreate = RelatedPerson;
             public const string RelatedDelete = $"{RelatedPerson}/{{id}}";
-            public const string GetRelation = $"{RelatedPerson}/{{id}}";
+            
         }
     }
 }

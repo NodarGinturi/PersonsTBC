@@ -59,19 +59,19 @@ namespace Persons.Api.Controllers
         }
 
         [HttpGet(ApiEndpoints.Persons.Get)]
-        public async Task<ActionResult<CreatePersonResponse>> Get(GetPersonQuery query)
+        public async Task<ActionResult<GetPersonResponse>> Get(int Id)
         {
-            var response = await _mediator.Send(query);
+            var response = await _mediator.Send(new GetPersonQuery(Id));
 
             if (response.IsFailure) return BadRequest(response.Error);
 
-            return Ok();
+            return Ok(response.Value);
         }
 
         [HttpGet(ApiEndpoints.Persons.GetAll)]
-        public async Task<ActionResult<CreatePersonResponse>> GetAll(GetPersonsQuery query)
+        public async Task<ActionResult<Result>> GetAll()
         {
-            var response = await _mediator.Send(query);
+            var response = await _mediator.Send(new GetPersonsQuery());
 
             if (response.IsFailure) return BadRequest(response.Error);
 

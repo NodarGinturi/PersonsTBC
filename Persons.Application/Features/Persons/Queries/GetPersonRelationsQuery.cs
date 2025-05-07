@@ -22,8 +22,9 @@ public class GetPersonRelationsQueryHandler(IUnitOfWork unitOfWork) : IRequestHa
     {
         var persons = await unitOfWork.PersonRepository.ListAllAsync(cancellationToken);
 
-        var filteredPersons = persons.Where(person => person.RelatedPersons
-            .Any(r => r.ConnectType == request.RelationType)).ToList();
+        var filteredPersons = persons
+                     .Where(person => person.RelatedPersons != null &&
+                     person.RelatedPersons.Any(r => r.ConnectType == request.RelationType)).ToList();
 
         var personRelations = filteredPersons.Select(person => new PersonRelationInfo
         {

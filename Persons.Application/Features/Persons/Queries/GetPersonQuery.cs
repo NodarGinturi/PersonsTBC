@@ -7,7 +7,7 @@ namespace Persons.Application.Features.Persons.Queries;
 
 public record GetPersonQuery(int Id) : IRequest<Result<GetPersonResponse>>;
 
-public record GetPersonResponse(int Id, string FirstName, string LastName, GenderTypes Gender, string PersonalNumber, DateOnly BirthDate, string City, string Phone, string ImageUrl);
+public record GetPersonResponse(int Id, string FirstName, string LastName, GenderTypes Gender, string PersonalNumber, DateOnly BirthDate, string City, string? Phone, string ImageUrl);
 
 public class GetPersonQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPersonQuery, Result<GetPersonResponse>>
 {
@@ -19,6 +19,8 @@ public class GetPersonQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<Get
 
         var phone = await unitOfWork.PhoneRepository.GetByPersonId(person.Id, cancellationToken);
 
-        return Result.Success(new GetPersonResponse(person.Id, person.FirstName, person.LastName, person.Gender, person.PersonalNumber, person.BirthDate, city.Name, phone.PhoneNumber, person.ImageUrl));
+        var result = new GetPersonResponse(person.Id, person.FirstName, person.LastName, person.Gender, person.PersonalNumber, person.BirthDate, city.Name, phone?.PhoneNumber, person.ImageUrl);
+
+        return Result.Success(result);
     }
 }

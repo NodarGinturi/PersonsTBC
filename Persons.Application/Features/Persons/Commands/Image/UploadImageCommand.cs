@@ -33,7 +33,7 @@ public class UploadImageCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler
             await request.ImageFile.CopyToAsync(stream, cancellationToken);
         }
 
-        person.ImageUrl = $"/images/persons/{fileName}";
+        person.ImageUrl = fileName;
         await unitOfWork.PersonRepository.UpdateAsync(person, cancellationToken);
 
         return Result.Success(new UploadPersonImageResponse(person.ImageUrl));
