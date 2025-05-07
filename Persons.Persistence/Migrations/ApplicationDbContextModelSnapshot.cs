@@ -154,6 +154,8 @@ namespace Persons.Persistence.Migrations
 
                     b.HasIndex("Id");
 
+                    b.HasIndex("PersonId");
+
                     b.HasIndex("RelatedPersonId");
 
                     b.ToTable("RelatedPersons");
@@ -209,6 +211,12 @@ namespace Persons.Persistence.Migrations
 
             modelBuilder.Entity("Persons.Domain.PersonAggregate.RelatedPerson", b =>
                 {
+                    b.HasOne("Persons.Domain.PersonAggregate.Person", null)
+                        .WithMany("RelatedPersons")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Persons.Domain.PersonAggregate.Person", "Person")
                         .WithMany()
                         .HasForeignKey("RelatedPersonId")
@@ -221,12 +229,20 @@ namespace Persons.Persistence.Migrations
             modelBuilder.Entity("Persons.Domain.PhoneNumberAggregate.Phone", b =>
                 {
                     b.HasOne("Persons.Domain.PersonAggregate.Person", "Person")
-                        .WithOne()
+                        .WithOne("Phone")
                         .HasForeignKey("Persons.Domain.PhoneNumberAggregate.Phone", "PersonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Persons.Domain.PersonAggregate.Person", b =>
+                {
+                    b.Navigation("Phone")
+                        .IsRequired();
+
+                    b.Navigation("RelatedPersons");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persons.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class addDatabase : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -96,6 +96,12 @@ namespace Persons.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_RelatedPersons", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_RelatedPersons_Persons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Persons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_RelatedPersons_Persons_RelatedPersonId",
                         column: x => x.RelatedPersonId,
                         principalTable: "Persons",
@@ -107,8 +113,8 @@ namespace Persons.Persistence.Migrations
                 columns: new[] { "Id", "Created", "IsDeleted", "LastModified", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTimeOffset(new DateTime(2025, 5, 4, 16, 8, 25, 565, DateTimeKind.Unspecified).AddTicks(2785), new TimeSpan(0, 0, 0, 0, 0)), false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Tbilisi" },
-                    { 2, new DateTimeOffset(new DateTime(2025, 5, 4, 16, 8, 25, 565, DateTimeKind.Unspecified).AddTicks(3639), new TimeSpan(0, 0, 0, 0, 0)), false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Batumi" }
+                    { 1, new DateTimeOffset(new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0)), false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Tbilisi" },
+                    { 2, new DateTimeOffset(new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 4, 0, 0, 0)), false, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Batumi" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -119,8 +125,7 @@ namespace Persons.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Persons_CityId",
                 table: "Persons",
-                column: "CityId",
-                unique: true);
+                column: "CityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Persons_Id",
@@ -147,6 +152,11 @@ namespace Persons.Persistence.Migrations
                 name: "IX_RelatedPersons_Id",
                 table: "RelatedPersons",
                 column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RelatedPersons_PersonId",
+                table: "RelatedPersons",
+                column: "PersonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RelatedPersons_RelatedPersonId",

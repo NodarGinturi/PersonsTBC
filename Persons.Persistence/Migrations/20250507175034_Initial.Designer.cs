@@ -12,8 +12,8 @@ using Persons.Persistence;
 namespace Persons.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250504161402_newdb")]
-    partial class newdb
+    [Migration("20250507175034_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,8 +118,7 @@ namespace Persons.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId")
-                        .IsUnique();
+                    b.HasIndex("CityId");
 
                     b.HasIndex("Id");
 
@@ -157,6 +156,8 @@ namespace Persons.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
+
+                    b.HasIndex("PersonId");
 
                     b.HasIndex("RelatedPersonId");
 
@@ -203,8 +204,8 @@ namespace Persons.Persistence.Migrations
             modelBuilder.Entity("Persons.Domain.PersonAggregate.Person", b =>
                 {
                     b.HasOne("Persons.Domain.CityAggregate.City", "City")
-                        .WithOne()
-                        .HasForeignKey("Persons.Domain.PersonAggregate.Person", "CityId")
+                        .WithMany()
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -213,6 +214,12 @@ namespace Persons.Persistence.Migrations
 
             modelBuilder.Entity("Persons.Domain.PersonAggregate.RelatedPerson", b =>
                 {
+                    b.HasOne("Persons.Domain.PersonAggregate.Person", null)
+                        .WithMany("RelatedPersons")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Persons.Domain.PersonAggregate.Person", "Person")
                         .WithMany()
                         .HasForeignKey("RelatedPersonId")
@@ -225,12 +232,20 @@ namespace Persons.Persistence.Migrations
             modelBuilder.Entity("Persons.Domain.PhoneNumberAggregate.Phone", b =>
                 {
                     b.HasOne("Persons.Domain.PersonAggregate.Person", "Person")
-                        .WithOne()
+                        .WithOne("Phone")
                         .HasForeignKey("Persons.Domain.PhoneNumberAggregate.Phone", "PersonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Persons.Domain.PersonAggregate.Person", b =>
+                {
+                    b.Navigation("Phone")
+                        .IsRequired();
+
+                    b.Navigation("RelatedPersons");
                 });
 #pragma warning restore 612, 618
         }
