@@ -14,6 +14,8 @@ public class DeletePersonCommandHandler(IUnitOfWork unitOfWork) : IRequestHandle
 
         if (person == null) return Result.Failure("Person does not exist");
 
+        await unitOfWork.PersonRepository.DeleteAsync(person, cancellationToken);
+
         return Result.Success();
     }
 }

@@ -28,6 +28,23 @@ public class Person : BaseEntity
     public string PersonalNumber { get; set; }
     public DateOnly BirthDate { get; set; }
     public City City { get; set; }
+    public Phone Phone { get; set; }
     public int CityId { get; set; }
     public string ImageUrl { get; set; }
+
+    public void Update(
+        string firstName, 
+        string lastName, 
+        GenderTypes gender, 
+        string personalNumber, 
+        DateOnly birthDate, 
+        City city)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Gender = gender;
+        PersonalNumber = personalNumber;
+        BirthDate = birthDate;
+        City = city;
+    }
 }

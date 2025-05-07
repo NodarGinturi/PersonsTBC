@@ -26,7 +26,7 @@ namespace Persons.Api.Controllers
             return Ok(response.Value);
         }
 
-        [HttpPost(ApiEndpoints.Persons.Update)]
+        [HttpPut(ApiEndpoints.Persons.Update)]
         public async Task<ActionResult<CreatePersonResponse>> Update(UpdatePersonCommand updatePersonCommand)
         {
             var response = await _mediator.Send(updatePersonCommand);
@@ -36,7 +36,7 @@ namespace Persons.Api.Controllers
             return Ok();
         }
 
-        [HttpPost(ApiEndpoints.Persons.Delete)]
+        [HttpDelete(ApiEndpoints.Persons.Delete)]
         public async Task<ActionResult<CreatePersonResponse>> Delete(DeletePersonCommand deletePersonCommand)
         {
             var response = await _mediator.Send(deletePersonCommand);
@@ -46,8 +46,18 @@ namespace Persons.Api.Controllers
             return Ok();
         }
 
-        [HttpPost(ApiEndpoints.Persons.Get)]
+        [HttpGet(ApiEndpoints.Persons.Get)]
         public async Task<ActionResult<CreatePersonResponse>> Get(GetPersonQuery query)
+        {
+            var response = await _mediator.Send(query);
+
+            if (response.IsFailure) return BadRequest(response.Error);
+
+            return Ok();
+        }
+
+        [HttpGet(ApiEndpoints.Persons.GetAll)]
+        public async Task<ActionResult<CreatePersonResponse>> GetAll(GetPersonsQuery query)
         {
             var response = await _mediator.Send(query);
 

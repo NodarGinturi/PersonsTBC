@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using System.Text.RegularExpressions;
 
-namespace Persons.Application.Features.Persons.Commands.Create;
+namespace Persons.Application.Features.RelatedPersons.Commands.Create;
 
-public class CreatePersonCommandValidator : AbstractValidator<CreatePersonCommand>
+public class CreateRelatedPersonCommandValidator : AbstractValidator<CreateRelatedPersonCommand>
 {
-    public CreatePersonCommandValidator()
+    public CreateRelatedPersonCommandValidator()
     {
         RuleFor(x => x.FirstName)
             .NotEmpty()
@@ -51,6 +51,10 @@ public class CreatePersonCommandValidator : AbstractValidator<CreatePersonComman
             .NotEmpty()
             .IsInEnum()
             .WithMessage("Phone type is not valid");
+
+        RuleFor(x => x.RelationType).IsInEnum();
+
+        RuleFor(x => x.PersonId).GreaterThan(0);
     }
 
     private bool BeOnlyEnglishOrOnlyGeorgian(string? firstName)
